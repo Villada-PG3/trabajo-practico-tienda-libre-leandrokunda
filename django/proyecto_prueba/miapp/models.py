@@ -25,4 +25,4 @@ class Producto(models.Model):
     marca = models.CharField(max_length=50, default="Marca Desconocida")
     imagen = models.ImageField(upload_to="productos/", null=True, blank=True)
     def __str__(self):
-        return self.nombre
+        return f"{self.nombre} - {self.marca} - ${self.precio} - STOCK: {self.stock}"
