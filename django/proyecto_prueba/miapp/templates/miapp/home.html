@@ -1,14 +1,13 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Home</title>
-</head>
-<body>
-    <h1>¡Bienvenidos a mi tienda!</h1>
-    <p>Esta es la página principal funcionando correctamente con MTV.</p>
-    
-    <!-- Enlace para ir a la página de la tarea -->
-    <a href="/acerca-de-mi/">Conocer más sobre el desarrollador</a>
-</body>
-</html>
+{% extends "miapp/base.html" %}
+
+{% block title %}Inicio - Tienda Libre{% endblock %}
+
+{% block content %}
+<div class="p-5 mb-4 bg-white rounded-3 shadow-sm border text-center">
+    <div class="container-fluid py-3">
+        <h1 class="display-5 fw-bold text-primary">¡Bienvenidos a mi tienda!</h1>
+        <p class="fs-4 text-muted lead">El mejor e-commerce desarrollado con Django y Bootstrap 5.</p>
+        <a href="#" class="btn btn-primary btn-lg mt-3">VER CATÁLOGO</a> 
+    </div>
+</div>
+{% endblock %}
