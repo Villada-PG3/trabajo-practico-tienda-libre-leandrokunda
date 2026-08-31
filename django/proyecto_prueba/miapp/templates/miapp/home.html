@@ -10,4 +10,41 @@
         <a href="#" class="btn btn-primary btn-lg mt-3">VER CATÁLOGO</a> 
     </div>
 </div>
+
+<h1 class="mb-4">{{ titulo }}</h1>
+
+{% if usuario_logueado %}
+    <div class="alert alert-info">¡Hola de nuevo! Estas son las ofertas</div>
+
+    <div class="row">
+        {% for producto in productos %}
+            <div class="col-md-4 mb-3">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ producto.nombre }}</h5>
+                        <p class="card-text">
+                            {% if producto.precio %}
+                                Precio: ${{ producto.precio|floatformat:2 }}
+                            {% else %}
+                                <span class="text-muted fs-6">{{ producto.precio|default:"Sin precio" }}</span>
+                            {% endif %}
+                        </p>
+                        {% if producto.stock > 0 %}
+                            <span class="badge bg-success">{{ producto.stock }} en stock</span>
+                        {% else %}
+                            <span class="badge bg-danger">Sin stock</span>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-muted">No hay productos destacados por el momento.</p>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<p class="mt-4 text-muted">
+    Total de productos mostrados: {{ productos|length }}
+</p>
 {% endblock %}
