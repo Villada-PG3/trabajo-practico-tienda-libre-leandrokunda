@@ -11,6 +11,32 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     {% block extra_css %}
+    <style>
+        .tarjeta-producto {
+            transition: all 0.3s ease;
+            border: 2px solid transparent !important; 
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .tarjeta-producto:hover{
+            background:  #e6e6e6;
+            background-attachment: fixed;
+            border-color: #6d6d6d !important;
+            transform: scale(1.04);
+            transition: 0.3s;
+            border-left: 5px solid #0d6efd;
+            border-bottom: 5px solid #0d6efd;
+            border-radius: 10px;
+        }
+        .ver-catalogo{
+            transition: 0.3s;
+        }
+        .ver-catalogo:hover{
+            transform: scale(1.08);
+            transition: 0.3s;
+            text-decoration: underline
+        }
+    </style>
     {% endblock %}
 </head>
 

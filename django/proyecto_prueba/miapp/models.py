@@ -22,6 +22,7 @@ class Producto(models.Model):
     descripcion = models.TextField(max_length=100, default=0)
     precio = models.DecimalField(max_digits=100, decimal_places=2)
     stock = models.IntegerField()
+    activo = models.BooleanField(default=True)
     marca = models.CharField(max_length=50, default="Marca Desconocida")
     imagen = models.ImageField(upload_to="productos/", null=True, blank=True)
     def __str__(self):
