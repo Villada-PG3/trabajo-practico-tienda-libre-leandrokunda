@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from .models import Producto
+from django.shortcuts import get_object_or_404
 class ProductosTemplateView(TemplateView):
     template_name = "miapp/productos.html"
 
@@ -22,3 +23,8 @@ def catalogo(request):
     productos = Producto.objects.filter(activo=True).order_by("-id")
     context = {"productos": productos}
     return render(request, "miapp/catalogo.html", context)
+
+def detalle_producto(request, pk):
+    producto = get_object_or_404(Producto, pk=pk)
+    context = {"producto": producto}
+    return render(request, "miapp/detalle.html", context)

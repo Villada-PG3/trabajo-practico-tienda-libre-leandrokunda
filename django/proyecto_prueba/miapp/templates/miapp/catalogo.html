@@ -29,7 +29,12 @@
                         <small class="text-uppercase text-muted fw-bold mb-1">{{ producto.categoria.nombre }}</small>
                     {% endif %}
 
-                    <h5 class="card-title fw-semibold">{{ producto.nombre }}</h5>
+                    <!-- 👇 Título enlazado al detalle -->
+                    <h5 class="card-title fw-semibold">
+                        <a href="{% url 'detalle_producto' producto.pk %}" class="text-decoration-none text-dark">
+                            {{ producto.nombre }}
+                        </a>
+                    </h5>
 
                     <p class="card-text text-primary fs-5 fw-bold mb-2">
                         {% if producto.precio %}
@@ -40,28 +45,25 @@
                     </p>
 
                     <div class="mt-auto d-flex justify-content-between align-items-center">
-                        <!-- Indicador de stock (Izquierda) -->
+                        <!-- Indicador de stock -->
                         {% if producto.stock > 0 %}
                             <span class="badge bg-success">{{ producto.stock }} en stock</span>
                         {% else %}
                             <span class="badge bg-danger">Sin stock</span>
                         {% endif %}
                     
-                        <!-- Botones UNIDOS con fondo blanco / outline (Derecha) -->
+                        <!-- Botones UNIDOS -->
                         <div class="btn-group btn-group-sm" role="group" aria-label="Acciones del producto">
                             {% if producto.stock > 0 %}
-                                <!-- Botón Comprar (Fondo blanco, borde y texto verde) -->
                                 <a href="#" class="btn btn-outline-success">Comprar</a>
                             {% else %}
-                                <!-- Botón Comprar (Gris deshabilitado si no hay stock) -->
                                 <button class="btn btn-outline-secondary" disabled>Comprar</button>
                             {% endif %}
                         
-                            <!-- Botón Ver detalle (Fondo blanco, borde y texto azul) -->
-                            <a href="#" class="btn btn-outline-primary">Ver detalle</a>
+                            <!-- 👇 Botón Ver detalle enlazado al detalle con producto.pk -->
+                            <a href="{% url 'detalle_producto' producto.pk %}" class="btn btn-outline-primary">Ver detalle</a>
                         </div>
-</div>
-                    <!-- 👆 FIN DEL CAMBIO -->
+                    </div>
 
                 </div>
 
