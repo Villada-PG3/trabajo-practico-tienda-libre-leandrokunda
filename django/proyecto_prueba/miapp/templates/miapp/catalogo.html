@@ -17,9 +17,9 @@
                 {% if producto.imagen %}
                     <img src="{{ producto.imagen.url }}" class="card-img-top" alt="{{ producto.nombre }}" style="height: 200px; object-fit: cover;">
                 {% else %}
-                    <div class="bg-light d-flex align-items-center justify-content-center text-muted" style="height: 200px;">
+                    <div class="sin_imagen d-flex align-items-center justify-content-center text-muted" style="height: 200px;">
                         <i class="bi bi-image fs-1"></i>
-                        <span>Sin imagen</span>
+                        <span class="text-white">Sin imagen</span>
                     </div>
                 {% endif %}
 
@@ -29,7 +29,7 @@
                         <small class="text-uppercase text-muted fw-bold mb-1">{{ producto.categoria.nombre }}</small>
                     {% endif %}
 
-                    <!-- 👇 Título enlazado al detalle -->
+                    <!--  Título enlazado al detalle -->
                     <h5 class="card-title fw-semibold">
                         <a href="{% url 'detalle_producto' producto.pk %}" class="text-decoration-none text-dark">
                             {{ producto.nombre }}
@@ -60,7 +60,7 @@
                                 <button class="btn btn-outline-secondary" disabled>Comprar</button>
                             {% endif %}
                         
-                            <!-- 👇 Botón Ver detalle enlazado al detalle con producto.pk -->
+                            <!--  Botón Ver detalle enlazado al detalle con producto.pk -->
                             <a href="{% url 'detalle_producto' producto.pk %}" class="btn btn-outline-primary">Ver detalle</a>
                         </div>
                     </div>

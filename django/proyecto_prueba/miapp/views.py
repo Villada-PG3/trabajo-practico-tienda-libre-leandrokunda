@@ -28,3 +28,6 @@ def detalle_producto(request, pk):
     producto = get_object_or_404(Producto, pk=pk)
     context = {"producto": producto}
     return render(request, "miapp/detalle.html", context)
+
+def pagina_no_encontrada(request, exception):
+    return render(request, "miapp/404.html", status=404)
