@@ -1,0 +1,85 @@
+{% extends "miapp/base.html" %}
+
+{% block title %}{{ producto.nombre }} - Tienda Libre{% endblock %}
+
+{% block content %}
+<div class="container my-3">
+    <!-- Breadcrumb (Navegación superior: Inicio / Catálogo / Nombre) -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-decoration-none">Inicio</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'catalogo' %}" class="text-decoration-none">Catálogo</a></li>
+            <li class="breadcrumb-item active text-muted" aria-current="page">{{ producto.nombre }}</li>
+        </ol>
+    </nav>
+
+    <div class="row mt-4">
+        <!-- Columna Izquierda: Imagen del producto -->
+        <div class="col-md-5 mb-4">
+            {% if producto.imagen %}
+                <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" class="img-fluid rounded border shadow-sm w-100">
+            {% else %}
+                <div class="bg-light border rounded d-flex align-items-center justify-content-center text-muted py-5" style="min-height: 250px;">
+                    <em class="text-secondary">[Imagen del producto — próxima clase]</em>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Columna Derecha: Información del producto -->
+        <div class="col-md-7 ps-md-4">
+            <!-- Título del Producto -->
+            <h1 class="display-6 fw-bold text-dark mb-2">{{ producto.nombre }}</h1>
+
+            <!-- Marca y Categoría -->
+            {% if producto.marca %}
+                <p class="mb-1 text-muted"><strong>Marca:</strong> {{ producto.marca }}</p>
+            {% endif %}
+
+            {% if producto.categoria %}
+                <p class="mb-3 text-muted"><em>Categoría: {{ producto.categoria.nombre }}</em></p>
+            {% endif %}
+
+            <!-- Precio -->
+            <h2 class="text-primary fw-bold display-6 mb-3">
+                ${{ producto.precio|floatformat:2 }}
+            </h2>
+
+            <!-- Disponibilidad / Stock -->
+            {% if producto.stock > 0 %}
+                <p class="text-success fw-bold fs-5 mb-3">
+                    ✓ Disponible ({{ producto.stock }} unidades)
+                </p>
+                <button class="btn btn-primary btn-lg px-4 mb-4 shadow-sm">
+                    Agregar al carrito
+                </button>
+            {% else %}
+                <p class="text-danger fw-bold fs-5 mb-3">
+                    ✗ No disponible actualmente
+                </p>
+                <button class="btn btn-secondary btn-lg px-4 mb-4" disabled>
+                    Sin Stock
+                </button>
+            {% endif %}
+
+            <!-- Descripción -->
+            <div class="mt-3">
+                <h3 class="text-primary fw-bold fs-4 mb-2">Descripción</h3>
+                <p class="text-secondary fs-5 mb-2">
+                    {% if producto.descripcion %}
+                        {{ producto.descripcion }}
+                    {% else %}
+                        <em>Sin descripción disponible.</em>
+                    {% endif %}
+                </p>
+
+                <!-- Fecha de publicación (si existe el campo en tu modelo) -->
+                {% if producto.fecha_creacion %}
+                    <small class="text-muted fst-italic d-block mt-3">
+                        Publicado el {{ producto.fecha_creacion|date:"d/m/Y" }}
+                    </small>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
