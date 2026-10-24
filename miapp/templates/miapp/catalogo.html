@@ -7,7 +7,20 @@
     <h1 class="fw-bold">Catálogo de Productos</h1>
     <span class="badge bg-primary fs-6">{{ productos|length }} productos disponibles</span>
 </div>
-
+<form method="GET" action="{% url 'catalogo' %}" class="row g-2 mb-4">
+    <div class="col-sm-9 col-md-10">
+        <input 
+            type="text" 
+            name="q" 
+            value="{{ request.GET.q|default:'' }}" 
+            class="form-control" 
+            placeholder="Buscar por nombre, marca o descripción..."
+        >
+    </div>
+    <div class="col-sm-3 col-md-2">
+        <button type="submit" class="btn btn-primary w-100">Buscar</button>
+    </div>
+</form>
 <div class="row">
     {% for producto in productos %}
         <div class="col-md-4 col-lg-3 mb-4">
