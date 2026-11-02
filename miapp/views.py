@@ -1,9 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, ListView, DetailView
 from .models import Producto, Categoria
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
-from .forms import ContactoForm
+from .forms import ContactoForm, ProductoForm
 
 #class ProductosTemplateView(TemplateView):
 #    template_name = "miapp/productos.html"
@@ -111,3 +111,15 @@ def acerca_de_mi(request):
 
 def pagina_no_encontrada(request, exception):
     return render(request, "miapp/404.html", status=404)
+
+def producto_nuevo(request):
+    if request.method == 'POST':
+        # IMPORTANTE: request.FILES es indispensable para recibir la imagen enviada
+        form = ProductoForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()  # ModelForm guarda el objeto directamente en la BD
+            return redirect('catalogo')
+    else:
+        form = ProductoForm()
+
+    return render(request, 'miapp/producto_form.html', {'form': form})
