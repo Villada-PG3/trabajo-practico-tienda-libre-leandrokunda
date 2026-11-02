@@ -12,7 +12,9 @@
             <li class="breadcrumb-item active text-muted" aria-current="page">{{ producto.nombre }}</li>
         </ol>
     </nav>
-
+<div class="mt-4">
+    <a href="{% url 'producto_editar' producto.pk %}" class="btn btn-warning">Editar Producto</a>
+</div>
     <div class="row mt-4">
         <!-- Columna Izquierda: Imagen del producto -->
         <div class="col-md-5 mb-4">

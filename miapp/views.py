@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView, ListView, DetailView
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView
 from .models import Producto, Categoria
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
@@ -123,3 +123,13 @@ def producto_nuevo(request):
         form = ProductoForm()
 
     return render(request, 'miapp/producto_form.html', {'form': form})
+
+class ProductoCreateView(CreateView):
+    model = Producto
+    form_class = ProductoForm
+    template_name = 'miapp/producto_form.html'
+
+class ProductoUpdateView(UpdateView):
+    model = Producto
+    form_class = ProductoForm
+    template_name = 'miapp/producto_form.html'
