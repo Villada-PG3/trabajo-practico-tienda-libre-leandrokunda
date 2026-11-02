@@ -6,6 +6,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('miapp.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
 
 handler404 = "miapp.views.pagina_no_encontrada"

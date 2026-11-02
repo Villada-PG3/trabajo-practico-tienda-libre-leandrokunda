@@ -5,6 +5,7 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Q
 from .forms import ContactoForm, ProductoForm
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 #class ProductosTemplateView(TemplateView):
 #    template_name = "miapp/productos.html"
@@ -125,17 +126,17 @@ def producto_nuevo(request):
 
     return render(request, 'miapp/producto_form.html', {'form': form})
 
-class ProductoCreateView(CreateView):
+class ProductoCreateView(LoginRequiredMixin, CreateView):
     model = Producto
     form_class = ProductoForm
     template_name = 'miapp/producto_form.html'
 
-class ProductoUpdateView(UpdateView):
+class ProductoUpdateView(LoginRequiredMixin, UpdateView):
     model = Producto
     form_class = ProductoForm
     template_name = 'miapp/producto_form.html'
 
-class ProductoDeleteView(DeleteView):
+class ProductoDeleteView(LoginRequiredMixin, DeleteView):
     model = Producto
     template_name = 'miapp/producto_confirm_delete.html'
     success_url = reverse_lazy('catalogo')
