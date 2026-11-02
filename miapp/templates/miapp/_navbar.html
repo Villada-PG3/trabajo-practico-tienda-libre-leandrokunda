@@ -38,6 +38,8 @@
                         {% endfor %}
                     </ul>
                 </li>
+
+                <!-- Sección de autenticación de usuario -->
                 {% if user.is_authenticated %}
                     <li class="nav-item d-flex align-items-center me-3 text-light">
                         <span>👋 {{ user.username }}</span>
@@ -49,8 +51,11 @@
                         </form>
                     </li>
                 {% else %}
-                    <li class="nav-item">
+                    <li class="nav-item me-2">
                         <a class="btn btn-outline-light btn-sm my-1" href="{% url 'login' %}">Iniciar Sesión</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-primary btn-sm my-1" href="{% url 'registro' %}">Registrarse</a>
                     </li>
                 {% endif %}
             </ul>

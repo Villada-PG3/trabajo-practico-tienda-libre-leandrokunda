@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Categoria(models.Model):
@@ -26,6 +27,9 @@ class Producto(models.Model):
     activo = models.BooleanField(default=True)
     marca = models.CharField(max_length=50, default="Marca Desconocida")
     imagen = models.ImageField(upload_to="productos/", null=True, blank=True)
+
+    creado_por = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+
     def __str__(self):
         return f"{self.nombre} - {self.marca} - ${self.precio} - STOCK: {self.stock}"
     def get_absolute_url(self):

@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Producto, Categoria
-from django.shortcuts import get_object_or_404
-from django.db.models import Q
-from .forms import ContactoForm, ProductoForm
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin  # 👈 Control de permisos
+from django.contrib.auth.forms import UserCreationForm  # 👈 Formulario de registro incorporado
+from django.contrib.auth import login  # 👈 Función para loguear automáticamente
 from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
+from .models import Producto, Categoria
+from .forms import ContactoForm, ProductoForm
+
 
 #class ProductosTemplateView(TemplateView):
 #    template_name = "miapp/productos.html"
@@ -126,17 +128,39 @@ def producto_nuevo(request):
 
     return render(request, 'miapp/producto_form.html', {'form': form})
 
+def registro(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            usuario = form.save()
+            login(request, usuario)  # Loguea al usuario automáticamente tras registrarse
+            return redirect('home')
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration/registro.html', {'form': form})
+
 class ProductoCreateView(LoginRequiredMixin, CreateView):
     model = Producto
     form_class = ProductoForm
     template_name = 'miapp/producto_form.html'
+
+    def form_valid(self, form):
+        form.instance.creado_por = self.request.user  # Asigna el usuario logueado como creador
+        return super().form_valid(form)
 
 class ProductoUpdateView(LoginRequiredMixin, UpdateView):
     model = Producto
     form_class = ProductoForm
     template_name = 'miapp/producto_form.html'
 
+    def test_func(self):
+        producto = self.get_object()
+        return self.request.user.is_superuser or producto.creado_por == self.request.user
 class ProductoDeleteView(LoginRequiredMixin, DeleteView):
     model = Producto
     template_name = 'miapp/producto_confirm_delete.html'
     success_url = reverse_lazy('catalogo')
+
+    def test_func(self):
+        producto = self.get_object()
+        return self.request.user.is_superuser or producto.creado_por == self.request.user

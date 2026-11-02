@@ -12,12 +12,15 @@
             <li class="breadcrumb-item active text-muted" aria-current="page">{{ producto.nombre }}</li>
         </ol>
     </nav>
-{% if user.is_authenticated %}
-    <div class="mt-4">
-        <a href="{% url 'producto_editar' producto.pk %}" class="btn btn-warning me-2">Editar</a>
-        <a href="{% url 'producto_eliminar' producto.pk %}" class="btn btn-danger">Eliminar</a>
-    </div>
-{% endif %}
+
+    <!-- Botones visibles únicamente para el creador del producto o el superusuario -->
+    {% if user.is_authenticated and user == producto.creado_por or user.is_superuser %}
+        <div class="mt-2 mb-3">
+            <a href="{% url 'producto_editar' producto.pk %}" class="btn btn-warning me-2">Editar</a>
+            <a href="{% url 'producto_eliminar' producto.pk %}" class="btn btn-danger">Eliminar</a>
+        </div>
+    {% endif %}
+
     <div class="row mt-4">
         <!-- Columna Izquierda: Imagen del producto -->
         <div class="col-md-5 mb-4">
@@ -25,7 +28,7 @@
                 <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" class="img-fluid rounded border shadow-sm w-100">
             {% else %}
                 <div class="bg-light border rounded d-flex align-items-center justify-content-center text-muted py-5" style="min-height: 250px;">
-                    <em class="text-secondary">[Imagen del producto — próxima clase]</em>
+                    <em class="text-secondary">[Sin imagen disponible]</em>
                 </div>
             {% endif %}
         </div>
@@ -34,6 +37,13 @@
         <div class="col-md-7 ps-md-4">
             <!-- Título del Producto -->
             <h1 class="display-6 fw-bold text-dark mb-2">{{ producto.nombre }}</h1>
+
+            <!-- Creador del producto -->
+            {% if producto.creado_por %}
+                <p class="mb-2 text-secondary small">
+                    <strong>Publicado por:</strong> {{ producto.creado_por.username }}
+                </p>
+            {% endif %}
 
             <!-- Marca y Categoría -->
             {% if producto.marca %}
@@ -77,7 +87,6 @@
                     {% endif %}
                 </p>
 
-                <!-- Fecha de publicación (si existe el campo en tu modelo) -->
                 {% if producto.fecha_creacion %}
                     <small class="text-muted fst-italic d-block mt-3">
                         Publicado el {{ producto.fecha_creacion|date:"d/m/Y" }}
