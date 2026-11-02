@@ -3,6 +3,8 @@ from django.views.generic import TemplateView, ListView, DetailView
 from .models import Producto, Categoria
 from django.shortcuts import get_object_or_404
 from django.db.models import Q
+from .forms import ContactoForm
+
 #class ProductosTemplateView(TemplateView):
 #    template_name = "miapp/productos.html"
 #
@@ -84,5 +86,28 @@ class DetalleProductoView(DetailView):
 
 def acerca_de_mi(request):
     return render(request, 'miapp/acerca-de-mi.html')
+def pagina_no_encontrada(request, exception):
+    return render(request, "miapp/404.html", status=404)
+
+def contacto(request):
+    mensaje_exito = None
+    
+    if request.method == 'POST':
+        form = ContactoForm(request.POST)
+        if form.is_valid():
+            # Los datos procesados y limpios están en form.cleaned_data
+            mensaje_exito = "¡Gracias por escribirnos! Tu mensaje ha sido enviado con éxito."
+            form = ContactoForm()  # Reiniciamos el formulario vacío
+    else:
+        form = ContactoForm()  # GET: Formulario vacío
+
+    return render(request, 'miapp/contacto.html', {
+        'form': form,
+        'mensaje_exito': mensaje_exito
+    })
+
+def acerca_de_mi(request):
+    return render(request, 'miapp/acerca-de-mi.html')
+
 def pagina_no_encontrada(request, exception):
     return render(request, "miapp/404.html", status=404)
