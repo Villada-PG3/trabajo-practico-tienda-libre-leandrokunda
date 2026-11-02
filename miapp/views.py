@@ -74,10 +74,18 @@ class CategoriaView(ListView):
     paginate_by = 6
 
     def get_queryset(self):
-        return Producto.objects.filter(
+        queryset = Producto.objects.filter(
             activo=True,
             categoria__slug=self.kwargs['slug']
         ).order_by("-id")
+        query = self.request.GET.get("q")
+        if query:
+            queryset = queryset.filter(
+                Q(nombre__icontains=query) |
+                Q(descripcion__icontains=query) |
+                Q(marca__icontains=query)
+            )
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
