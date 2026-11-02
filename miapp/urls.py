@@ -9,6 +9,9 @@ urlpatterns = [
     path('producto/<int:pk>/', views.DetalleProductoView.as_view(), name='detalle_producto'),
     path('contacto/', views.contacto, name='contacto'),
     path('producto/nuevo/', views.producto_nuevo, name='producto_crear'),
+
+# Rutas CRUD de productos
     path('producto/nuevo/', views.ProductoCreateView.as_view(), name='producto_crear'),
     path('producto/<int:pk>/editar/', views.ProductoUpdateView.as_view(), name='producto_editar'),
+    path('producto/<int:pk>/eliminar/', views.ProductoDeleteView.as_view(), name='producto_eliminar'),
 ]
